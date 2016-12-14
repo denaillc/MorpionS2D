@@ -1,0 +1,50 @@
+
+
+//A FAIRE
+
+-> Serialization
+-> FAIRE SCAN MATCH NUL
+-> Quand on clique une case déjà jouée -> faire rejouer le joueur
+-> Quand la partie commence, les deux joueurs ne doivent pas avoir le même nom
+-> 
+-> 
+-> 
+-> 
+-> 
+-> 
+-> 
+-> 
+
+/!\
+-> TOUJOURS passer les variables des view hors du constructeur
+
+
+
+
+
+
+
+
+
+
+                        switch (choix) {
+				case "1": {
+                                            setChanged();
+                                            notifyObservers(Validation.ListeJoueurs);
+                                            clearChanged();
+                                        break; }
+				case "2": {
+                                            setChanged();
+                                            notifyObservers(Validation.LancerPartie);
+                                            clearChanged();
+                                        break;}
+				case "3": {
+                                            System.exit(0);
+                                        break;}
+                                case "0":
+                                        return;
+				default:
+                                       System.out.println("Choix non valide");
+                                       break;
+				} // switch
+                        } while (choix != "0");
