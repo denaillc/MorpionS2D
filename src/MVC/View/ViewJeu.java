@@ -6,14 +6,17 @@
 package MVC.View;
 
 import MVC.Model.Joueur;
-import MVC.Model.Plateau;
 import enumere.Symbole;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,6 +44,7 @@ public class ViewJeu extends Observable {
         panelCentre = new JPanel(new GridLayout(3,3));
         for (int i = 1; i <= 9; i++) {
             JButton c = new JButton("");
+            c.setBorderPainted(true);
             cases.add(c) ;
             panelCentre.add(c);
             c.setName(String.valueOf(i));
@@ -70,6 +74,7 @@ public class ViewJeu extends Observable {
             return false;
         }
         else {
+            j.addCaseJouee(i-1);
             this.getCases().get(i-1).setText(j.getSymbole().toString());
             this.getCases().get(i-1).setEnabled(false);
             this.show();
@@ -93,6 +98,17 @@ public class ViewJeu extends Observable {
         this.getWindow().setVisible(false);
     }
     
+    public void desactiverPlateau() {
+        for (int i = 0; i < this.getCases().size(); i++) {
+            this.getCases().get(i).setEnabled(false);
+        }
+    }
+    
+    public void colorierCasesGagnantes(int i1, int i2, int i3){
+        this.getCases().get(i1).setBackground(Color.GREEN);
+        this.getCases().get(i2).setBackground(Color.GREEN);
+        this.getCases().get(i3).setBackground(Color.GREEN);
+    }
     
     /************************************************
     **************GETTERS ET SETTERS*****************

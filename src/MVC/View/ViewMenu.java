@@ -7,6 +7,7 @@ package MVC.View;
 
 import enumere.Commande;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,8 +33,8 @@ public class ViewMenu extends Observable {
     private JButton btnValider = new JButton("Valider");
     private JLabel joueur1 = new JLabel("Joueur 1 :");
     private JLabel joueur2 = new JLabel("Joueur 2 :");
-    private JTextField pseudo1 = new JTextField("");
-    private JTextField pseudo2 = new JTextField("");
+    private JTextField pseudo1 = new JTextField("Joueur 1");
+    private JTextField pseudo2 = new JTextField("Joueur 2");
     private JButton btnQuitter = new JButton("Quitter");
 
     public ViewMenu() {
@@ -43,6 +44,8 @@ public class ViewMenu extends Observable {
         window.setLocation(650, 0);
         window.setTitle("Menu Principal");
         
+        
+        
         window.add(mainPanel);
         
         btnValider.setName(Commande.VALIDER.toString());
@@ -50,12 +53,12 @@ public class ViewMenu extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                if (pseudo1.getText() != pseudo2.getText()) {
+                if (!pseudo1.getText().equals(pseudo2.getText()) && !"".equals(pseudo1.getText()) && !"".equals(pseudo2.getText())) {
                     setChanged();
                     notifyObservers(btnValider.getName());
                     clearChanged();
                 }
-                else if (pseudo1.getText() == "" || pseudo2.getText() == "") {
+                else if ("".equals(pseudo1.getText()) || "".equals(pseudo2.getText())) {
                     System.err.println("Erreur : Pseudos incomplets");
                 } 
                 else {

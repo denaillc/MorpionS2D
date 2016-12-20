@@ -10,6 +10,7 @@ import MVC.View.ViewJeu;
 import MVC.View.ViewMenu;
 import enumere.Commande;
 import enumere.Symbole;
+import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -52,16 +53,18 @@ public class Controller implements Observer {
             else if (arg instanceof Integer) {
                 boolean b = this.getViewJ().CliquerCase(jCourant, (int) arg);
                 if (b) {    // Si le tour est validé, une case possible est cliquée
-                if (!this.Scan3x3()) {  // Pas de victoire
-                    System.out.println("Au tour de : " + this.jCourant.getPseudo());
-                    this.jCourant = JoueurSuivant();
-                } else {
-                    
-                    System.out.println(jCourant.getPseudo() + " a gagné");
-                }
-                    
-                    
-                }
+                        if (!this.Scan3x3()) {  // Pas de victoire
+                            if (matchNul()) {
+                                System.out.println("Partie terminée, match nul");
+                            }
+                            else {                            
+                            System.out.println("Au tour de : " + this.jCourant.getPseudo());
+                            this.jCourant = JoueurSuivant();
+                            }
+                        } else {
+                            Victoire(jCourant);
+                        }
+                    }
                 
                 
                 
@@ -91,6 +94,20 @@ public class Controller implements Observer {
     }
     
     
+    public void Victoire(Joueur j) {
+        System.out.println(j.getPseudo() + " a gagné");
+        this.getViewJ().desactiverPlateau();
+    }
+    
+    
+    
+    
+    /*          7 4 5 6 8
+                1 X X X
+                2 X X X
+                3 X X X
+    
+    */
     
     
     
@@ -99,65 +116,40 @@ public class Controller implements Observer {
     ************************************************/
     
     public boolean Scan3x3 () {
-        
         int i = ScanLignes();
         switch (i) {
             case 1 :
-                jCourant.addCaseGagnante(0);
-                jCourant.addCaseGagnante(1);
-                jCourant.addCaseGagnante(2);
-                System.out.println("ligne 1");
+                this.getViewJ().colorierCasesGagnantes(0, 1, 2);
                 break;
             case 2 :
-                jCourant.addCaseGagnante(3);
-                jCourant.addCaseGagnante(4);
-                jCourant.addCaseGagnante(5);
-                System.out.println("ligne 2");
+                this.getViewJ().colorierCasesGagnantes(3, 4, 5);
                 break;
             case 3 :
-                jCourant.addCaseGagnante(6);
-                jCourant.addCaseGagnante(7);
-                jCourant.addCaseGagnante(8);
-                System.out.println("ligne 3");
+                this.getViewJ().colorierCasesGagnantes(6, 7, 8);
                 break;
             case 0 :
                 int j = ScanColonnes();
                                 switch (j) {
                                     case 1 :
-                                        jCourant.addCaseGagnante(0);
-                                        jCourant.addCaseGagnante(1);
-                                        jCourant.addCaseGagnante(2);
-                                        System.out.println("colonne 1");
+                                        this.getViewJ().colorierCasesGagnantes(0, 3, 6);
                                         break;
                                     case 2 :
-                                        jCourant.addCaseGagnante(3);
-                                        jCourant.addCaseGagnante(4);
-                                        jCourant.addCaseGagnante(5);
-                                        System.out.println("colonne 2");
+                                        this.getViewJ().colorierCasesGagnantes(1, 4, 7);
                                         break;
                                     case 3 :
-                                        jCourant.addCaseGagnante(6);
-                                        jCourant.addCaseGagnante(7);
-                                        jCourant.addCaseGagnante(8);
-                                        System.out.println("colonne 3");
+                                        this.getViewJ().colorierCasesGagnantes(2, 5, 8);
                                         break;
                                     case 0 :
                                         int k = ScanDiagonales();
                                                         switch (k) {
                                                             case 1 :
-                                                                jCourant.addCaseGagnante(0);
-                                                                jCourant.addCaseGagnante(4);
-                                                                jCourant.addCaseGagnante(8);
-                                                                System.out.println("diago 1");
+                                                                this.getViewJ().colorierCasesGagnantes(0, 4, 8);
                                                                 break;
                                                             case 2 :
-                                                                jCourant.addCaseGagnante(2);
-                                                                jCourant.addCaseGagnante(4);
-                                                                jCourant.addCaseGagnante(6);
-                                                                System.out.println("diago 2");
+                                                                this.getViewJ().colorierCasesGagnantes(2, 4, 6);
                                                                 break;
                                                             case 0 :
-                                                                return false;                                                                
+                                                                return false;
                                                         }
                                 }
                 
@@ -224,6 +216,17 @@ public class Controller implements Observer {
     }
     
     
+    public boolean matchNul() {
+        boolean b = true;
+        for (int i = 0; i < this.getViewJ().getCases().size(); i++) {
+            if (this.getViewJ().getCases().get(i).isEnabled()) {
+                b = false;
+            }
+        }
+        return b;
+    }
+    
+    
     /************************************************
     **************GETTERS ET SETTERS*****************
     ************************************************/  
@@ -276,26 +279,3 @@ public class Controller implements Observer {
 }
 
 
-
-
-
-
-
-
-//            switch (commandeRecue) {
-//                case (Commande.) : {
-//                                            
-//                                        break; }
-//				case Commande.R.toString(): {
-//                                            
-//                                        break;}
-//				case Commande.Q.toString(): {
-//                                            
-//                                        break;}
-//                                case "0":
-//                                        return;
-//				default:
-//                                       System.out.println("Choix non valide");
-//                                       break;
-//				} // switch
-//                        }

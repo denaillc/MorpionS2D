@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Joueur {
     private String pseudo;
     private Symbole symbole;
-    private ArrayList<Integer> casesGagnantes = new ArrayList<>();
+    private ArrayList<Integer> casesJouees = new ArrayList<>();
 
     public Joueur(String pseudo, Symbole symbole) {
         this.pseudo = pseudo;
@@ -31,16 +31,16 @@ public class Joueur {
         this.pseudo = pseudo;
     }
 
-    public ArrayList<Integer> getCasesGagnantes() {
-        return casesGagnantes;
+    public ArrayList<Integer> getCasesJouees() {
+        return casesJouees;
     }
 
-    public void setCasesGagnantes(ArrayList<Integer> casesGagnantes) {
-        this.casesGagnantes = casesGagnantes;
+    public void setCasesJouees(ArrayList<Integer> casesJouees) {
+        this.casesJouees = casesJouees;
     }
     
-    public void addCaseGagnante(Integer caseGagnante) {
-        this.casesGagnantes.add(caseGagnante);
+    public void addCaseJouee (int caseJouee) {
+        this.casesJouees.add(caseJouee);
     }
 
     public Symbole getSymbole() {
