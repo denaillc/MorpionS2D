@@ -6,11 +6,11 @@
 package MVC.Controller;
 
 import MVC.Model.Joueur;
+import MVC.View.ViewConsole;
 import MVC.View.ViewJeu;
 import MVC.View.ViewMenu;
 import enumere.Commande;
 import enumere.Symbole;
-import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,12 +24,16 @@ public class Controller implements Observer {
     private Joueur jCourant;
     ViewJeu viewJ;
     ViewMenu viewM;
+    ViewConsole viewC;
     
     public Controller() {
         viewM = new ViewMenu();
         viewM.addObserver(this);
         
+        viewJ = new ViewJeu();
+        viewJ.addObserver(this);
         
+        viewC = new ViewConsole();
         
     }
     
@@ -37,13 +41,18 @@ public class Controller implements Observer {
     public void update(Observable o, Object arg) {
         
             if (arg == Commande.VALIDER.toString()) {
-                viewJ = new ViewJeu();
-                viewJ.addObserver(this);
                 this.InitialiserJoueurs();
+                this.ResetJeu();
                 this.getViewM().hide();
+                this.getViewJ().show();
                 
             } else if (arg == Commande.REJOUER.toString()) {
-                //à implémenter
+                this.j1.resetCasesJouees();
+                this.j2.resetCasesJouees();
+                this.jCourant = this.j1;
+                this.ResetJeu();
+                this.getViewM().hide();
+                this.getViewJ().show();
                 
             } else if (arg == Commande.QUITTER.toString()) {
                 System.exit(0);
@@ -54,8 +63,9 @@ public class Controller implements Observer {
                 boolean b = this.getViewJ().CliquerCase(jCourant, (int) arg);
                 if (b) {    // Si le tour est validé, une case possible est cliquée
                         if (!this.Scan3x3()) {  // Pas de victoire
-                            if (matchNul()) {
+                            if (MatchNul()) {
                                 System.out.println("Partie terminée, match nul");
+                                this.getViewM().show();
                             }
                             else {                            
                             System.out.println("Au tour de : " + this.jCourant.getPseudo());
@@ -95,19 +105,29 @@ public class Controller implements Observer {
     
     
     public void Victoire(Joueur j) {
-        System.out.println(j.getPseudo() + " a gagné");
-        this.getViewJ().desactiverPlateau();
+        this.viewC.write(j.getPseudo() + " a gagné");
+        this.getViewJ().DesactiverPlateau();
+        if (jCourant == j1) {
+            j1.gagne();
+        }
+        else {
+            j2.gagne();
+        }
+        this.getViewM().getScore1().setText("Score : " + j1.getScore());
+        this.getViewM().getScore2().setText("Score : " + j2.getScore());
+        this.getViewM().show();
     }
     
     
-    
-    
-    /*          7 4 5 6 8
-                1 X X X
-                2 X X X
-                3 X X X
-    
-    */
+        public void ResetJeu() {
+        for (int i = 0; i < this.getViewJ().getCases().size(); i++) {
+            this.getViewJ().getCases().get(i).setText("");
+            this.getViewJ().getCases().get(i).setEnabled(true);
+            this.getViewJ().getCases().get(i).setBackground(null);
+        }
+        this.j1.getCasesJouees().clear();
+        this.j2.getCasesJouees().clear();
+    }
     
     
     
@@ -119,34 +139,34 @@ public class Controller implements Observer {
         int i = ScanLignes();
         switch (i) {
             case 1 :
-                this.getViewJ().colorierCasesGagnantes(0, 1, 2);
+                this.getViewJ().ColorierCasesGagnantes(0, 1, 2);
                 break;
             case 2 :
-                this.getViewJ().colorierCasesGagnantes(3, 4, 5);
+                this.getViewJ().ColorierCasesGagnantes(3, 4, 5);
                 break;
             case 3 :
-                this.getViewJ().colorierCasesGagnantes(6, 7, 8);
+                this.getViewJ().ColorierCasesGagnantes(6, 7, 8);
                 break;
             case 0 :
                 int j = ScanColonnes();
                                 switch (j) {
                                     case 1 :
-                                        this.getViewJ().colorierCasesGagnantes(0, 3, 6);
+                                        this.getViewJ().ColorierCasesGagnantes(0, 3, 6);
                                         break;
                                     case 2 :
-                                        this.getViewJ().colorierCasesGagnantes(1, 4, 7);
+                                        this.getViewJ().ColorierCasesGagnantes(1, 4, 7);
                                         break;
                                     case 3 :
-                                        this.getViewJ().colorierCasesGagnantes(2, 5, 8);
+                                        this.getViewJ().ColorierCasesGagnantes(2, 5, 8);
                                         break;
                                     case 0 :
                                         int k = ScanDiagonales();
                                                         switch (k) {
                                                             case 1 :
-                                                                this.getViewJ().colorierCasesGagnantes(0, 4, 8);
+                                                                this.getViewJ().ColorierCasesGagnantes(0, 4, 8);
                                                                 break;
                                                             case 2 :
-                                                                this.getViewJ().colorierCasesGagnantes(2, 4, 6);
+                                                                this.getViewJ().ColorierCasesGagnantes(2, 4, 6);
                                                                 break;
                                                             case 0 :
                                                                 return false;
@@ -216,7 +236,7 @@ public class Controller implements Observer {
     }
     
     
-    public boolean matchNul() {
+    public boolean MatchNul() {
         boolean b = true;
         for (int i = 0; i < this.getViewJ().getCases().size(); i++) {
             if (this.getViewJ().getCases().get(i).isEnabled()) {

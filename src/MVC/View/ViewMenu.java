@@ -33,6 +33,8 @@ public class ViewMenu extends Observable {
     private JButton btnValider = new JButton("Valider");
     private JLabel joueur1 = new JLabel("Joueur 1 :");
     private JLabel joueur2 = new JLabel("Joueur 2 :");
+    private JLabel score1 = new JLabel("");
+    private JLabel score2 = new JLabel("");
     private JTextField pseudo1 = new JTextField("Joueur 1");
     private JTextField pseudo2 = new JTextField("Joueur 2");
     private JButton btnQuitter = new JButton("Quitter");
@@ -41,7 +43,7 @@ public class ViewMenu extends Observable {
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         window.setSize(300, 150);
-        window.setLocation(650, 0);
+        window.setLocation(700, 100);
         window.setTitle("Menu Principal");
         
         
@@ -90,15 +92,15 @@ public class ViewMenu extends Observable {
             }
         });
         
-        panelCentre.add(joueur1); //Case 1
-        panelCentre.add(pseudo1); //Case 2
-        panelCentre.add(new JLabel("")); //Case 3 - vide
-        panelCentre.add(joueur2); //Case 4
-        panelCentre.add(pseudo2); //Case 5        
-        panelCentre.add(new JLabel("")); //Case 6 - vide
-        panelCentre.add(btnValider);    //Case 7
-        panelCentre.add(btnRejouer);    //Case 8
-        panelCentre.add(btnQuitter);    //Case 9
+        panelCentre.add(joueur1);               //Case 1
+        panelCentre.add(pseudo1);               //Case 2
+        panelCentre.add(score1);                //Case 3 - score du joueur 1
+        panelCentre.add(joueur2);               //Case 4
+        panelCentre.add(pseudo2);               //Case 5
+        panelCentre.add(score2);                //Case 6 - score du joueur 2
+        panelCentre.add(btnValider);            //Case 7
+        panelCentre.add(btnRejouer);            //Case 8
+        panelCentre.add(btnQuitter);            //Case 9
         mainPanel.add(panelCentre, BorderLayout.CENTER);
         
         
@@ -194,6 +196,24 @@ public class ViewMenu extends Observable {
     public JFrame getWindow() {
         return window;
     }
+
+    public JLabel getScore1() {
+        return score1;
+    }
+
+    public void setScore1(JLabel score1) {
+        this.score1 = score1;
+    }
+
+    public JLabel getScore2() {
+        return score2;
+    }
+
+    public void setScore2(JLabel score2) {
+        this.score2 = score2;
+    }
+    
+    
     
     
     

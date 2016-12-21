@@ -16,12 +16,20 @@ public class Joueur {
     private String pseudo;
     private Symbole symbole;
     private ArrayList<Integer> casesJouees = new ArrayList<>();
+    private int score;
 
     public Joueur(String pseudo, Symbole symbole) {
         this.pseudo = pseudo;
         this.symbole = symbole;
+        this.score = 0;
     }
-
+    
+    
+    public void gagne() {
+        this.score++;
+    }
+    
+    
 
     public String getPseudo() {
         return pseudo;
@@ -42,6 +50,10 @@ public class Joueur {
     public void addCaseJouee (int caseJouee) {
         this.casesJouees.add(caseJouee);
     }
+    
+    public void resetCasesJouees() {
+        this.casesJouees.clear();
+    }
 
     public Symbole getSymbole() {
         return symbole;
@@ -50,6 +62,15 @@ public class Joueur {
     public void setSymbole(Symbole symbole) {
         this.symbole = symbole;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+    
 
     
     

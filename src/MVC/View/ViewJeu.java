@@ -37,7 +37,9 @@ public class ViewJeu extends Observable {
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         window.setSize(600, 600);
+        window.setLocation(100, 100);
         window.setTitle("J'ai des morpions");
+        //window.setUndecorated(true);      Garder la bordure ?
         
         mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel);
@@ -62,8 +64,6 @@ public class ViewJeu extends Observable {
         }
         
         mainPanel.add(panelCentre, BorderLayout.CENTER);
-        
-        window.setVisible(true);
     }
 
     
@@ -98,13 +98,13 @@ public class ViewJeu extends Observable {
         this.getWindow().setVisible(false);
     }
     
-    public void desactiverPlateau() {
+    public void DesactiverPlateau() {
         for (int i = 0; i < this.getCases().size(); i++) {
             this.getCases().get(i).setEnabled(false);
         }
     }
-    
-    public void colorierCasesGagnantes(int i1, int i2, int i3){
+
+    public void ColorierCasesGagnantes(int i1, int i2, int i3){
         this.getCases().get(i1).setBackground(Color.GREEN);
         this.getCases().get(i2).setBackground(Color.GREEN);
         this.getCases().get(i3).setBackground(Color.GREEN);
