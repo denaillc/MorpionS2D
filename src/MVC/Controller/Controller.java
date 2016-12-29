@@ -45,6 +45,7 @@ public class Controller implements Observer {
                 this.ResetJeu();
                 this.getViewM().hide();
                 this.getViewJ().show();
+                this.viewC.write("Tour de : " + this.getjCourant().getPseudo());
                 
             } else if (arg == Commande.REJOUER.toString()) {
                 this.j1.resetCasesJouees();
@@ -56,7 +57,6 @@ public class Controller implements Observer {
                 
             } else if (arg == Commande.QUITTER.toString()) {
                 System.exit(0);
-                
             } 
             
             else if (arg instanceof Integer) {
@@ -64,12 +64,13 @@ public class Controller implements Observer {
                 if (b) {    // Si le tour est validé, une case possible est cliquée
                         if (!this.Scan3x3()) {  // Pas de victoire
                             if (MatchNul()) {
-                                System.out.println("Partie terminée, match nul");
+                                this.viewC.write("***** Match nul *****");
+                                this.viewC.write("Score actuel : " + this.j1.getPseudo() + "(" + this.j1.getScore() + ") - (" + this.j2.getScore() + ")" + this.j2.getPseudo());
                                 this.getViewM().show();
                             }
-                            else {                            
-                            System.out.println("Au tour de : " + this.jCourant.getPseudo());
+                            else {
                             this.jCourant = JoueurSuivant();
+                            this.viewC.write("Tour de : " + this.getjCourant().getPseudo());
                             }
                         } else {
                             Victoire(jCourant);
@@ -82,7 +83,7 @@ public class Controller implements Observer {
                 
                 
             } else {
-            System.err.println("Argument de Commande invalide (" + arg.toString() + ")");
+            this.viewC.write("Argument de Commande invalide (" + arg.toString() + ")");
             }
     }
     
@@ -105,7 +106,6 @@ public class Controller implements Observer {
     
     
     public void Victoire(Joueur j) {
-        this.viewC.write(j.getPseudo() + " a gagné");
         this.getViewJ().DesactiverPlateau();
         if (jCourant == j1) {
             j1.gagne();
@@ -113,6 +113,8 @@ public class Controller implements Observer {
         else {
             j2.gagne();
         }
+        this.viewC.write(j.getPseudo() + " a gagné");
+        this.viewC.write("Score actuel : " + this.j1.getPseudo() + "(" + this.j1.getScore() + ") - (" + this.j2.getScore() + ")" + this.j2.getPseudo());
         this.getViewM().getScore1().setText("Score : " + j1.getScore());
         this.getViewM().getScore2().setText("Score : " + j2.getScore());
         this.getViewM().show();

@@ -7,6 +7,7 @@ package MVC.View;
 
 import java.awt.Component;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
@@ -17,6 +18,7 @@ public class ViewConsole {
     
     private final JFrame window;
     private JTextArea text;
+    private JScrollPane sp;
 
     public ViewConsole() {
         window = new JFrame();
@@ -26,7 +28,8 @@ public class ViewConsole {
         window.setTitle("Console");
         
         text = new JTextArea();
-        window.add(text);
+        sp = new JScrollPane(text);
+        window.add(sp);
         
         this.show();
     }

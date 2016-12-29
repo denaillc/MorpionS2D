@@ -38,8 +38,7 @@ public class ViewJeu extends Observable {
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         window.setSize(600, 600);
         window.setLocation(100, 100);
-        window.setTitle("J'ai des morpions");
-        //window.setUndecorated(true);      Garder la bordure ?
+        window.setTitle("Morpion");
         
         mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel);
