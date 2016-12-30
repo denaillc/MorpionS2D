@@ -9,6 +9,7 @@ import MVC.Model.Joueur;
 import enumere.Symbole;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,6 +47,7 @@ public class ViewJeu extends Observable {
         for (int i = 1; i <= 9; i++) {
             JButton c = new JButton("");
             c.setBorderPainted(true);
+            c.setFont(new Font("Arial", Font.PLAIN, 80));
             cases.add(c) ;
             panelCentre.add(c);
             c.setName(String.valueOf(i));
